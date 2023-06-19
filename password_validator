@@ -1,0 +1,110 @@
+import java.util.Scanner;
+
+public class PasswordGenerator {
+
+    private static final String ALLOWED_SPECIAL_CHARACTERS = "@$*#";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Generate your password");
+        String password = scanner.nextLine();
+
+        if (validatePassword(password)) {
+            int lowercaseCount = countLowercaseLetters(password);
+            int uppercaseCount = countUppercaseLetters(password);
+            int specialCharCount = countSpecialCharacters(password);
+            int digitCount = countDigits(password);
+
+            System.out.println("The generated password " + password + " is valid and has " +
+                    lowercaseCount + " lowercase alphabet(s) " +
+                    uppercaseCount + " uppercase alphabet(s) " +
+                    specialCharCount + " special character(s) " +
+                    digitCount + " digit(s)");
+        } else {
+            System.out.println(password + " is an invalid password");
+        }
+
+        scanner.close();
+    }
+
+    private static boolean validatePassword(String password) {
+        if (password.length() < 6 || password.length() > 12) {
+            return false;
+        }
+
+        boolean hasLowercase = false;
+        boolean hasUppercase = false;
+        boolean hasSpecialChar = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+
+            if (Character.isLowerCase(ch)) {
+                hasLowercase = true;
+            } else if (Character.isUpperCase(ch)) {
+                hasUppercase = true;
+            } else if (ALLOWED_SPECIAL_CHARACTERS.indexOf(ch) != -1) {
+                hasSpecialChar = true;
+            }
+        }
+
+        return hasLowercase && hasUppercase && hasSpecialChar;
+    }
+
+    private static int countLowercaseLetters(String password) {
+        int count = 0;
+
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+
+            if (Character.isLowerCase(ch)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private static int countUppercaseLetters(String password) {
+        int count = 0;
+
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+
+            if (Character.isUpperCase(ch)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private static int countSpecialCharacters(String password) {
+        int count = 0;
+
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+
+            if (ALLOWED_SPECIAL_CHARACTERS.indexOf(ch) != -1) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private static int countDigits(String password) {
+        int count = 0;
+
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+
+            if (Character.isDigit(ch)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
